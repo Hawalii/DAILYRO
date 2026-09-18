@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DAILYRO — Personal Fashion AI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+:root{--ink:#151515;--muted:#777;--line:#e9e7e4;--soft:#f6f4f1;--paper:#fff;--accent:#c8a98a;--green:#597363}
+*{box-sizing:border-box}body{margin:0;background:#efede9;color:var(--ink);font-family:"DM Sans","Noto Sans KR",sans-serif}
+button,input,select{font:inherit}.shell{max-width:1240px;margin:auto;min-height:100vh;background:var(--paper);box-shadow:0 0 50px #00000008}
+.header{padding:24px 38px 0;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
+.brand{display:flex;justify-content:space-between;align-items:center}.brand h1{font-size:18px;letter-spacing:4px;margin:0}.brand small{color:var(--muted)}
+.nav{display:flex;gap:26px;margin-top:24px;overflow:auto}.nav button{border:0;background:none;padding:0 0 14px;color:#888;white-space:nowrap;cursor:pointer}.nav button.active{color:#111;border-bottom:2px solid #111}
+main{padding:34px 38px 70px}.page{display:none}.page.active{display:block}
+.eyebrow{font-size:11px;letter-spacing:2px;color:#999;text-transform:uppercase}.hero{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:28px}.hero h2{font-size:38px;line-height:1.12;margin:7px 0}.hero p{color:var(--muted);margin:0;line-height:1.6}
+.weather{background:#171717;color:#fff;border-radius:22px;padding:18px 22px;min-width:180px}.weather strong{font-size:28px}.weather span{display:block;color:#aaa;font-size:12px;margin-top:5px}
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.75fr);gap:18px}.card{border:1px solid var(--line);border-radius:22px;padding:22px;background:#fff}.dark{background:#171717;color:#fff;border-color:#171717}.soft{background:var(--soft);border:0}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.section-title h3{margin:0;font-size:17px}.section-title span{font-size:12px;color:#999}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid #ddd;background:#fff;border-radius:999px;padding:9px 13px;font-size:12px;cursor:pointer}.chip.on{background:#111;color:#fff;border-color:#111}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field label{font-size:11px;color:#888;display:block;margin-bottom:7px}.field input,.field select{width:100%;border:1px solid #ddd;border-radius:11px;padding:11px;background:#fff;outline:none}
+.primary{border:0;background:#111;color:#fff;padding:13px 17px;border-radius:12px;font-weight:700;cursor:pointer}.ghost{border:1px solid #ddd;background:#fff;padding:12px 15px;border-radius:12px;cursor:pointer}.full{width:100%;margin-top:18px}
+.recommend{margin-top:18px;background:#f7f5f2;border-radius:20px;padding:18px}.look{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.piece{min-height:150px;background:#fff;border-radius:15px;padding:13px;position:relative;overflow:hidden}.piece .visual{height:85px;border-radius:11px;background:linear-gradient(135deg,#eee,#fafafa);display:flex;align-items:center;justify-content:center;font-size:38px}.piece small{display:block;color:#999;margin-top:9px}.piece b{font-size:13px}.reason{margin-top:12px;padding:13px 15px;background:#fff;border-radius:13px;color:#555;font-size:12px;line-height:1.7}
+.actionbar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.actionbar button{border:0;border-radius:10px;padding:10px 12px;cursor:pointer}.like{background:#111;color:#fff}.bad,.save,.again{background:#fff}
+.side-title{font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase}.profile-mini{display:flex;align-items:center;gap:12px;margin:14px 0 18px}.avatar{width:48px;height:48px;border-radius:50%;background:#e9e4de;display:flex;align-items:center;justify-content:center;font-weight:700}.meter{height:7px;background:#444;border-radius:9px;overflow:hidden;margin:8px 0}.meter i{display:block;height:100%;background:#fff;width:38%}.learning-copy{font-size:12px;color:#aaa;line-height:1.7}
+.insight{border-top:1px solid #333;padding-top:14px;margin-top:16px}.insight b{font-size:14px}.tag{display:inline-block;font-size:10px;padding:5px 7px;border-radius:7px;background:#f0eee9;margin:5px 3px 0 0}.dark .tag{background:#2b2b2b;color:#ddd}
+.closet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}.item-img{height:170px;background:#f2f0ed;display:flex;align-items:center;justify-content:center;font-size:55px}.item-body{padding:13px}.item-body b{font-size:13px}.item-body small{display:block;color:#999;margin-top:5px}.add{border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;min-height:260px;border-radius:16px;cursor:pointer;color:#777}
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.shop{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#fff}.shop-img{height:180px;background:linear-gradient(135deg,#e8e3dc,#f7f6f3);display:flex;align-items:center;justify-content:center;font-size:60px}.shop-body{padding:15px}.price{font-size:18px;font-weight:700}.old{text-decoration:line-through;color:#aaa;font-size:11px;margin-left:6px}.discount{color:#9a5b42;font-size:11px;font-weight:700}.shop-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.score{font-size:11px;color:#777}
+.saved-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.saved-look{border:1px solid var(--line);border-radius:17px;padding:17px}.mini{display:flex;gap:8px}.mini div{flex:1;height:100px;border-radius:11px;background:#f2f0ed;display:flex;align-items:center;justify-content:center;font-size:28px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wide{grid-column:1/-1}
+.learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#f6f4f1;border-radius:16px;padding:18px}.stat small{color:#888}.stat b{font-size:26px;display:block;margin-top:6px}.timeline{margin-top:18px}.event{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:12px}.dot{width:8px;height:8px;background:#111;border-radius:50%;margin-top:4px}.notice{background:#fbf6ed;border-radius:13px;padding:12px;font-size:11px;color:#7d6a57;line-height:1.6}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.open{display:flex}.modalbox{width:min(620px,100%);background:#fff;border-radius:22px;padding:24px;max-height:90vh;overflow:auto}.modalhead{display:flex;justify-content:space-between}.close{border:0;background:#eee;border-radius:50%;width:30px;height:30px}.tabs2{display:flex;gap:7px;margin:18px 0}.tabs2 button{border:1px solid #ddd;background:#fff;border-radius:10px;padding:9px 12px}.tabs2 .on{background:#111;color:#fff}.preview{margin-top:12px;border-radius:15px;overflow:hidden;background:#f5f3ef;text-align:center}.preview img{max-width:100%;max-height:220px}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:12px;font-size:12px;display:none;z-index:100}
+@media(max-width:850px){.header{padding:20px}.main,main{padding:22px 20px 50px}.layout{grid-template-columns:1fr}.closet-grid{grid-template-columns:repeat(2,1fr)}.shop-grid{grid-template-columns:1fr 1fr}.hero{align-items:start;flex-direction:column}.weather{width:100%}.controls{grid-template-columns:1fr}.learning-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.closet-grid,.shop-grid,.saved-grid{grid-template-columns:1fr}.look{grid-template-columns:1fr}.hero h2{font-size:30px}.header{padding:18px}.nav{gap:18px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header">
+ <div class="brand"><h1>DAILYRO</h1><div style="display:flex;align-items:center;gap:10px"><small>PERSONAL FASHION AI</small><button class="ghost" onclick="shareApp()" style="padding:8px 10px">↗ 공유</button></div></div>
+ <nav class="nav">
+  <button class="active" onclick="page('home',this)">오늘</button>
+  <button onclick="page('closet',this)">옷장</button>
+  <button onclick="page('shop',this)">SHOP</button>
+  <button onclick="page('saved',this)">저장</button>
+  <button onclick="page('profile',this)">MY</button>
+ </nav>
+</header>
+<main>
+<div id="devNotice" style="background:#171717;color:#fff;border-radius:14px;padding:11px 15px;margin-bottom:20px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span>현재 일부 기능은 준비 중입니다. 실제 AI 분석·쇼핑몰 연동·개인화 학습 고도화 기능은 <b>업데이트 예정</b>입니다.</span><button onclick="this.parentElement.style.display='none'" style="border:0;background:#333;color:#fff;border-radius:8px;padding:6px 9px;cursor:pointer">닫기</button></div>
+
+<section id="home" class="page active">
+ <div class="hero"><div><div class="eyebrow">Daily styling intelligence</div><h2>오늘은,<br><i>내가 좋아하는 방식으로.</i></h2><p>날씨와 상황뿐 아니라 지금까지의 선택까지 학습해<br>나에게 맞는 코디를 찾아줍니다.</p></div>
+ <div class="weather"><strong>23°</strong><span>Cloudy · 서울</span></div></div>
+ <div class="layout">
+  <div>
+   <div class="card">
+    <div class="section-title"><h3>오늘의 조건</h3><span>3 STEP</span></div>
+    <div class="controls">
+     <div class="field"><label>오늘의 목적</label><div id="purpose" class="chips"></div></div>
+     <div class="field"><label>원하는 무드</label><div id="style" class="chips"></div></div>
+    </div>
+    <div class="field" style="margin-top:16px"><label>추천 방식</label><div class="chips"><button class="chip on mode" onclick="mode(this,'closet')">내 옷으로만</button><button class="chip mode" onclick="mode(this,'all')">새 상품까지</button></div></div>
+    <button class="primary full" onclick="recommend()">오늘의 코디 추천받기 →</button>
+   </div>
+   <div id="recommendation" class="card" style="margin-top:16px"><div class="eyebrow">AI recommendation</div><h3 style="margin:8px 0">오늘의 코디를 받아보세요.</h3><p class="muted">사용자의 취향 데이터가 쌓일수록 추천 결과가 달라집니다.</p></div>
+  </div>
+  <aside>
+   <div class="card dark">
+    <div class="side-title">Personal learning</div>
+    <div class="profile-mini"><div class="avatar">DR</div><div><b>나의 스타일</b><div style="font-size:11px;color:#aaa">학습 진행 중</div></div></div>
+    <div style="font-size:12px">개인화 데이터 <b id="eventN">0</b>건</div><div class="meter"><i id="meter"></i></div>
+    <div class="learning-copy">좋아요, 저장, 다시 입은 코디, 별로예요 등의 행동을 바탕으로 나만의 취향 가중치를 만듭니다.</div>
+    <div class="insight"><b>현재 파악한 취향</b><div id="insights"><span class="tag">데이터 수집 중</span></div></div>
+   </div>
+   <div class="card soft" style="margin-top:14px"><div class="side-title">Wardrobe gap</div><h3 style="margin:8px 0">내 옷장에서 부족한 것</h3><p class="muted" id="gap">추천 데이터가 쌓이면 필요한 의류를 찾아드려요.</p><button class="ghost" onclick="page('shop',document.querySelectorAll('.nav button')[2])">추천 상품 보기</button></div>
+  </aside>
+ </div>
+</section>
+
+<section id="closet" class="page">
+ <div class="hero"><div><div class="eyebrow">My wardrobe</div><h2>나의 옷장</h2><p>사진이나 구매 링크를 넣으면 AI가 옷의 특징을 정리합니다.</p></div><button class="primary" onclick="openAdd()">+ 옷 추가</button></div>
+ <div class="card soft" style="margin-bottom:18px"><div class="notice">상품 이미지를 복제해 공개하는 것이 아니라, 사용자의 옷을 <b>카테고리·색상·핏·계절·스타일·TPO</b> 데이터로 변환해 추천에 활용하는 구조입니다.</div></div>
+ <div id="closetGrid" class="closet-grid"></div>
+</section>
+
+<section id="shop" class="page">
+ <div class="hero"><div><div class="eyebrow">Personal shopping radar · 준비 중</div><h2>나에게 필요한<br><i>쇼핑 알림</i></h2><p>자주 입는 스타일과 옷장 부족 품목을 바탕으로<br>할인·인기 상품을 찾아보는 공간입니다.</p></div><button class="primary" onclick="toggleAlert()">🔔 알림 설정</button></div>
+ <div class="card soft" style="margin-bottom:18px"><div class="section-title"><h3>AI가 찾은 상품</h3><span>DEMO DATA</span></div><div class="notice">현재 테스트 버전에서는 상품 데이터가 예시로 표시됩니다. 실제 서비스에서는 허용된 쇼핑몰 API/제휴 데이터/검색 결과를 연결해 가격과 재고를 최신 상태로 확인합니다.</div></div>
+ <div id="shopGrid" class="shop-grid"></div>
+</section>
+
+<section id="saved" class="page">
+ <div class="hero"><div><div class="eyebrow">Your edits</div><h2>저장한 코디</h2><p>마음에 든 조합을 모아 나만의 레퍼런스를 만듭니다.</p></div></div>
+ <div id="savedGrid" class="saved-grid"></div>
+</section>
+
+<section id="profile" class="page">
+ <div class="hero"><div><div class="eyebrow">My profile</div><h2>나를 알아가는 AI</h2><p>키와 몸무게는 참고값입니다. 실제 선택과 피드백을 통해<br>나에게 맞는 실루엣을 점점 찾아갑니다.</p></div></div>
+ <div class="card">
+  <div class="profile-grid">
+   <div class="field"><label>키 (cm)</label><input id="height" value="165"></div><div class="field"><label>몸무게 (kg)</label><input id="weight" value="55"></div>
+   <div class="field"><label>평소 상의 사이즈</label><select id="topSize"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select></div>
+   <div class="field"><label>선호 핏</label><select id="fit"><option>정핏</option><option selected>세미오버핏</option><option>오버핏</option><option>루즈핏</option></select></div>
+   <div class="field wide"><label>좋아하는 색</label><input id="favColor" value="블랙, 네이비, 화이트"></div>
+  </div>
+  <button class="primary" style="margin-top:18px" onclick="saveProfile()">프로필 저장</button><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="ghost" onclick="exportData()">내 데이터 내보내기</button><button class="ghost" onclick="document.getElementById('importFile').click()">데이터 가져오기</button><input id="importFile" type="file" accept=".json,application/json" style="display:none" onchange="importData(event)"></div>
+ </div>
+ <div class="card" style="margin-top:16px"><div class="section-title"><h3>AI 학습 기록</h3><span id="dataCount">0 DATA</span></div><div class="notice" style="margin-bottom:14px">현재는 테스트용으로 행동 데이터를 저장합니다. 실제 개인화 AI 학습 모델은 <b>업데이트 예정</b>입니다.</div><div class="learning-grid"><div class="stat"><small>추천 반응</small><b id="likes">0</b></div><div class="stat"><small>저장</small><b id="saves">0</b></div><div class="stat"><small>별로예요</small><b id="dislikes">0</b></div></div><div class="timeline" id="timeline"></div></div>
+</section>
+</main>
+</div>
+
+<div id="modal" class="modal"><div class="modalbox">
+ <div class="modalhead"><div><div class="eyebrow">Add to wardrobe</div><h2 style="margin:5px 0">AI로 옷 등록</h2></div><button class="close" onclick="closeAdd()">×</button></div>
+ <div class="tabs2"><button id="linkMode" class="on" onclick="addMode('link')">구매 링크</button><button id="imgMode" onclick="addMode('image')">상품 캡처</button></div>
+ <div id="linkPane"><div class="field"><label>상품 페이지 URL</label><input id="url" placeholder="https://..."></div><button class="primary full" onclick="analyze('link')">AI 분석하기 <span style="font-size:10px;opacity:.65">(업데이트 예정)</span></button></div>
+ <div id="imgPane" style="display:none"><div class="field"><label>상품 페이지 캡처</label><input id="image" type="file" accept="image/*" onchange="preview(event)"></div><div id="preview" class="preview"></div><button class="primary full" onclick="analyze('image')">AI 이미지 분석하기 <span style="font-size:10px;opacity:.65">(업데이트 예정)</span></button></div>
+ <div id="analysis" style="display:none;margin-top:20px"><div class="notice">AI가 추출한 값을 확인하고 수정한 뒤 옷장에 저장하세요.</div>
+  <div class="profile-grid">
+   <div class="field"><label>상품명</label><input id="aName"></div><div class="field"><label>카테고리</label><select id="aCat"><option>상의</option><option>하의</option><option>아우터</option><option>신발</option></select></div>
+   <div class="field"><label>색상</label><input id="aColor"></div><div class="field"><label>핏</label><input id="aFit"></div>
+   <div class="field wide"><label>스타일</label><input id="aStyle"></div><div class="field"><label>계절</label><input id="aSeason"></div><div class="field"><label>TPO</label><input id="aTpo"></div>
+  </div><button class="primary full" onclick="addItem()">옷장에 등록</button>
+ </div>
+</div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY='dailyro_final_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ profile:{height:165,weight:55,topSize:'M',fit:'세미오버핏',favColor:'블랙, 네이비, 화이트'},
+ closet:[
+  {id:1,n:'화이트 코튼 티셔츠',c:'상의',co:'화이트',f:'레귤러',s:'캐주얼, 미니멀',se:'봄, 여름',t:'일상, 학교',e:'👕'},
+  {id:2,n:'라이트블루 와이드 데님',c:'하의',co:'라이트블루',f:'와이드',s:'캐주얼, 캠퍼스',se:'봄, 여름, 가을',t:'일상, 학교',e:'👖'},
+  {id:3,n:'네이비 오버핏 셔츠',c:'상의',co:'네이비',f:'오버핏',s:'미니멀, 캐주얼',se:'봄, 가을',t:'학교, 약속, 출근',e:'👔'},
+  {id:4,n:'화이트 스니커즈',c:'신발',co:'화이트',f:'기본',s:'캐주얼, 미니멀',se:'사계절',t:'일상, 학교, 약속',e:'👟'}
+ ],
+ events:[],saved:[],alert:false
+};
+let currentMode='closet', last=null;
+const products=[
+ {n:'오버핏 네이비 셔츠',price:39900,old:59000,dc:'32%',e:'👔',why:'최근 선택한 오버핏·네이비 스타일과 94% 일치'},
+ {n:'와이드 스트레이트 데님',price:44900,old:69000,dc:'35%',e:'👖',why:'자주 선택한 와이드 실루엣 + 현재 옷장과 높은 조합성'},
+ {n:'미니멀 크롭 블루종',price:69900,old:99000,dc:'29%',e:'🧥',why:'가을 아우터 카테고리가 옷장에서 부족해요'}
+];
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function toast(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}
+function page(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function chips(id,a){document.getElementById(id).innerHTML=a.map((x,i)=>`<button class="chip ${i===0?'on':''}" onclick="pick(this,'${id}')">${x}</button>`).join('')}
+function pick(b,id){document.querySelectorAll('#'+id+' .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+chips('purpose',['일상','학교','출근','데이트','약속']);chips('style',['꾸안꾸','캐주얼','미니멀','스트릿','캠퍼스']);
+function mode(b,m){document.querySelectorAll('.mode').forEach(x=>x.classList.remove('on'));b.classList.add('on');currentMode=m}
+function selected(id){return document.querySelector('#'+id+' .on')?.textContent||''}
+function log(type,data={}){db.events.push({type,time:new Date().toLocaleString('ko-KR'),...data});save()}
+function score(x,style,purpose){let q=0;if((x.s||'').includes(style))q+=4;if((x.t||'').includes(purpose))q+=3;if(db.profile.favColor.split(',').some(c=>(x.co||'').includes(c.trim())))q+=2;if((x.f||'').includes(db.profile.fit.replace('핏','')))q+=1;return q+Math.random()}
+function recommend(){
+ let style=selected('style'),purpose=selected('purpose');
+ let tops=db.closet.filter(x=>x.c==='상의').sort((a,b)=>score(b,style,purpose)-score(a,style,purpose));
+ let bottoms=db.closet.filter(x=>x.c==='하의').sort((a,b)=>score(b,style,purpose)-score(a,style,purpose));
+ let shoes=db.closet.filter(x=>x.c==='신발').sort((a,b)=>score(b,style,purpose)-score(a,style,purpose));
+ if(currentMode==='all'&&!bottoms.length)bottoms=[{n:'블랙 와이드 슬랙스',c:'하의',co:'블랙',f:'와이드',s:'미니멀',e:'👖'}];
+ if(currentMode==='all'&&!tops.length)tops=[{n:'화이트 셔츠',c:'상의',co:'화이트',f:'세미오버',s:'미니멀',e:'👔'}];
+ if(!tops.length||!bottoms.length||!shoes.length){toast('상의·하의·신발을 먼저 등록해주세요.');return}
+ last={top:tops[0],bottom:bottoms[0],shoe:shoes[0],style,purpose};
+ log('recommend',{style,purpose});renderRecommendation();toast('오늘의 코디가 준비됐어요.')}
+function renderRecommendation(){
+ let o=last;document.getElementById('recommendation').innerHTML=`<div class="eyebrow">AI recommendation · ${o.purpose}</div><h3 style="margin:8px 0">오늘은 ${o.style.toLowerCase()}하게.</h3><div class="recommend"><div class="look">
+ <div class="piece"><div class="visual">${o.top.e||'👕'}</div><small>TOP</small><b>${o.top.n}</b></div>
+ <div class="piece"><div class="visual">${o.bottom.e||'👖'}</div><small>BOTTOM</small><b>${o.bottom.n}</b></div>
+ <div class="piece"><div class="visual">${o.shoe.e||'👟'}</div><small>SHOES</small><b>${o.shoe.n}</b></div></div>
+ <div class="reason"><b>왜 이 코디?</b><br>선택한 ${o.style} 무드와 ${o.purpose} 상황에 맞추고, 현재 옷장의 색상·핏 조합을 우선했습니다. 사용자의 피드백이 쌓이면 이 판단에도 개인별 가중치가 들어갑니다.</div>
+ <div class="actionbar"><button class="like" onclick="feedback('like')">♥ 좋아요</button><button class="bad" onclick="feedback('bad')">별로예요</button><button class="save" onclick="saveLook()">저장</button><button class="again" onclick="recommend()">다른 코디</button></div></div>`}
+function feedback(t){log(t,{look:last});toast(t==='like'?'좋아요가 학습됐어요.':'별로예요가 학습됐어요. 다음 추천에 반영합니다.')}
+function saveLook(){db.saved.push(last);log('save',{look:last});toast('저장했어요.')}
+function openAdd(){document.getElementById('modal').classList.add('open');document.getElementById('analysis').style.display='none'}
+function closeAdd(){document.getElementById('modal').classList.remove('open')}
+function addMode(m){document.getElementById('linkPane').style.display=m==='link'?'block':'none';document.getElementById('imgPane').style.display=m==='image'?'block':'none';document.getElementById('linkMode').classList.toggle('on',m==='link');document.getElementById('imgMode').classList.toggle('on',m==='image')}
+function preview(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>document.getElementById('preview').innerHTML=`<img src="${r.result}">`;r.readAsDataURL(f)}
+function analyze(m){let d=m==='link'?{n:'AI 분석 네이비 셔츠',c:'상의',co:'네이비',f:'오버핏',s:'미니멀, 캐주얼',se:'봄, 가을',t:'학교, 약속'}:{n:'AI 이미지 분석 상품',c:'상의',co:'화이트',f:'세미오버핏',s:'캐주얼, 미니멀',se:'봄, 여름',t:'일상, 학교'};for(let k of ['n','c','co','f','s','se','t'])document.getElementById('a'+({n:'Name',c:'Cat',co:'Color',f:'Fit',s:'Style',se:'Season',t:'Tpo'}[k])).value=d[k];document.getElementById('analysis').style.display='block'}
+function addItem(){let m={id:Date.now(),n:aName.value,c:aCat.value,co:aColor.value,f:aFit.value,s:aStyle.value,se:aSeason.value,t:aTpo.value,e:aCat.value==='하의'?'👖':aCat.value==='신발'?'👟':aCat.value==='아우터'?'🧥':'👕'};db.closet.push(m);log('closet',{item:m});closeAdd();toast('옷장에 등록했어요.');page('closet',document.querySelectorAll('.nav button')[1])}
+function saveProfile(){db.profile={height:height.value,weight:weight.value,topSize:topSize.value,fit:fit.value,favColor:favColor.value};log('profile');toast('프로필을 저장했어요.')}
+function toggleAlert(){db.alert=!db.alert;save();toast(db.alert?'주 1회 쇼핑 알림을 켰어요.':'쇼핑 알림을 껐어요.')}
+
+function shareApp(){
+  const shareData={
+    title:'DAILYRO — Personal Fashion AI',
+    text:'DAILYRO 패션 앱을 사용해보세요.',
+    url:location.href
+  };
+  if(navigator.share && location.protocol!=='file:'){
+    navigator.share(shareData).catch(()=>{});
+    return;
+  }
+  const url=location.href;
+  if(navigator.clipboard && location.protocol!=='file:'){
+    navigator.clipboard.writeText(url).then(()=>toast('앱 주소를 복사했어요.')).catch(()=>fallbackCopy(url));
+  }else{
+    fallbackCopy(url);
+  }
+}
+function fallbackCopy(t){
+  const ta=document.createElement('textarea');
+  ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');toast('앱 주소를 복사했어요.')}catch(e){toast('웹에 올린 뒤 주소를 공유해주세요.')}
+  ta.remove();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='dailyro-data.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast('내 데이터 파일을 만들었어요.');
+}
+function importData(e){
+  const f=e.target.files?.[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const incoming=JSON.parse(r.result);
+      if(!incoming || typeof incoming!=='object' || !Array.isArray(incoming.closet) || !Array.isArray(incoming.events)){
+        throw new Error('invalid');
+      }
+      db=incoming;
+      save();
+      toast('데이터를 가져왔어요.');
+    }catch(err){toast('올바른 DAILYRO 데이터 파일이 아니에요.')}
+    e.target.value='';
+  };
+  r.readAsText(f);
+}
+
+function render(){
+ document.getElementById('eventN').textContent=db.events.length;document.getElementById('meter').style.width=Math.min(100,db.events.length/30*100)+'%';
+ let likes=db.events.filter(x=>x.type==='like').length,bads=db.events.filter(x=>x.type==='bad').length,saves=db.events.filter(x=>x.type==='save').length;
+ let insight=document.getElementById('insights');insight.innerHTML=db.events.length<4?'<span class="tag">데이터 수집 중</span>':'<span class="tag">캐주얼</span><span class="tag">오버핏</span><span class="tag">뉴트럴 컬러</span>';
+ document.getElementById('closetGrid').innerHTML=db.closet.map(x=>`<div class="item"><div class="item-img">${x.e}</div><div class="item-body"><b>${x.n}</b><small>${x.c} · ${x.co} · ${x.f}</small><span class="tag">${x.s}</span><span class="tag">${x.se}</span></div></div>`).join('')+`<div class="add" onclick="openAdd()">＋<br>새 옷 등록</div>`;
+ document.getElementById('shopGrid').innerHTML=products.map((p,i)=>`<div class="shop"><div class="shop-img">${p.e}</div><div class="shop-body"><div class="discount">-${p.dc} · AI MATCH ${92-i*6}%</div><h3 style="font-size:14px;margin:7px 0">${p.n}</h3><div><span class="price">${p.price.toLocaleString()}원</span><span class="old">${p.old.toLocaleString()}원</span></div><div class="score">${p.why}</div><div class="shop-foot"><button class="ghost" onclick="toast('상품 상세 연결 준비 완료')">상세 보기</button><button class="ghost" onclick="toast('관심 상품으로 저장했어요')">♡</button></div></div></div>`).join('');
+ document.getElementById('savedGrid').innerHTML=db.saved.length?db.saved.map((x,i)=>`<div class="saved-look"><div class="eyebrow">LOOK ${i+1}</div><h3>${x.style} · ${x.purpose}</h3><div class="mini"><div>${x.top.e}</div><div>${x.bottom.e}</div><div>${x.shoe.e}</div></div><p class="muted">${x.top.n} · ${x.bottom.n} · ${x.shoe.n}</p></div>`).join(''):'<div class="card soft"><h3>아직 저장한 코디가 없어요.</h3><p class="muted">오늘의 추천에서 마음에 드는 코디를 저장해보세요.</p></div>';
+ document.getElementById('likes').textContent=likes;document.getElementById('dislikes').textContent=bads;document.getElementById('saves').textContent=saves;document.getElementById('dataCount').textContent=db.events.length+' DATA';
+ document.getElementById('timeline').innerHTML=db.events.slice(-8).reverse().map(e=>`<div class="event"><i class="dot"></i><div><b>${e.type==='like'?'코디 좋아요':e.type==='bad'?'코디 별로예요':e.type==='save'?'코디 저장':e.type==='recommend'?'추천 요청':'프로필/옷장 업데이트'}</b><div class="muted">${e.time}</div></div></div>`).join('');
+}
+render();
+</script>
+</body>
+</html>
